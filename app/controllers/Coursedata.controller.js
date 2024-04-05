@@ -37,3 +37,30 @@ exports.create = (req, res) => {
             res.status(500).send({ message: err.message || "Error retrieving student" });
         });
 };
+
+///////////////////////////////////////////////////////////////////////// delete student by student_ID /////////////////////////////////
+exports.deleteCourseData = (req, res) => {
+    const id = req.params.student_ID;
+
+    CourseData.destroy({
+        where: { id: id } // Change 'student_ID' to 'id' if 'id' is the correct field to use
+    })
+    .then(num => {
+        if (num == 1) {
+            res.send({
+                message: "CourseData was deleted successfully!"
+            });
+        } else {
+            res.send({
+                message: `Cannot delete CourseData with ID=${id}. Maybe CourseData was not found!`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "Could not delete CourseData with ID=" + id
+        });
+    });
+};
+
+
